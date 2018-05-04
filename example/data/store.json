@@ -1,0 +1,68 @@
+{
+  "accessTypes": [
+    {
+      "id": "route-viewing",
+      "displayName": "просмотр маршрута"
+    },
+    {
+      "id": "viewing",
+      "displayName": "просмотр ресурса"
+    },
+    {
+      "id": "reading",
+      "displayName": "чтение ресурса"
+    },
+    {
+      "id": "writing",
+      "displayName": "запись"
+    },
+    {
+      "id": "executing",
+      "displayName": "выполнение"
+    },
+    {
+      "id": "adding",
+      "displayName": "добавление"
+    },
+    {
+      "id": "editing",
+      "displayName": "редактирование ресурса"
+    },
+    {
+      "id": "deleting",
+      "displayName": "удаление"
+    },
+    {
+      "id": "administrators",
+      "displayName": "администрирование"
+    },
+    {
+      "id": "public",
+      "displayName": "публичная"
+    }
+  ],
+  "users": [{
+    "id": "6d4bab4d-196c-455a-b9a5-51352e42363d",
+    "displayName": "Василий",
+    "name": "vasya",
+    "passwordHash": "202cb962ac59075b964b07152d234b70",
+    "createdAt": "Mon, 18 Jul 2016 06:46:13 GMT",
+    "lastLoginMoment": "Mon, 18 Jul 2016 06:46:13 GMT"
+  }, {
+    "id": "bb95c1cb-fe6d-4ac2-af46-00211bd816ff",
+    "displayName": "Петя",
+    "name": "petya",
+    "passwordHash": "202cb962ac59075b964b07152d234b70",
+    "createdAt": "Mon, 18 Jul 2016 06:46:13 GMT",
+    "lastLoginMoment": "Mon, 18 Jul 2016 06:46:13 GMT"
+  }],
+  "roles": [{
+    "id": "10ce37ed-877f-42cb-af69-ab0c469c62c5",
+    "displayName": "Просмотр маршрута слоев",
+    "accessPermissions": {
+      "route-viewing": ["layers"],
+      "viewing": ["63330b6e-b812-41d8-9f90-9bdaeb4558be"]
+    },
+    "userIds": ["6d4bab4d-196c-455a-b9a5-51352e42363d"]
+  }]
+}
