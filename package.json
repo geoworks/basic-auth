@@ -1,58 +1,4 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "basic-auth@git+https://github.com/tetarenko/basic-auth.git",
-        "scope": null,
-        "escapedName": "basic-auth",
-        "name": "basic-auth",
-        "rawSpec": "git+https://github.com/tetarenko/basic-auth.git",
-        "spec": "git+https://github.com/tetarenko/basic-auth.git",
-        "type": "hosted",
-        "hosted": {
-          "type": "github",
-          "ssh": "git@github.com:tetarenko/basic-auth.git",
-          "sshUrl": "git+ssh://git@github.com/tetarenko/basic-auth.git",
-          "httpsUrl": "git+https://github.com/tetarenko/basic-auth.git",
-          "gitUrl": "git://github.com/tetarenko/basic-auth.git",
-          "shortcut": "github:tetarenko/basic-auth",
-          "directUrl": "https://raw.githubusercontent.com/tetarenko/basic-auth/master/package.json"
-        }
-      },
-      "C:\\src\\data-handling"
-    ]
-  ],
-  "_from": "git+https://github.com/tetarenko/basic-auth.git",
-  "_id": "basic-auth@0.0.2",
-  "_inCache": true,
-  "_location": "/basic-auth",
-  "_phantomChildren": {},
-  "_requested": {
-    "raw": "basic-auth@git+https://github.com/tetarenko/basic-auth.git",
-    "scope": null,
-    "escapedName": "basic-auth",
-    "name": "basic-auth",
-    "rawSpec": "git+https://github.com/tetarenko/basic-auth.git",
-    "spec": "git+https://github.com/tetarenko/basic-auth.git",
-    "type": "hosted",
-    "hosted": {
-      "type": "github",
-      "ssh": "git@github.com:tetarenko/basic-auth.git",
-      "sshUrl": "git+ssh://git@github.com/tetarenko/basic-auth.git",
-      "httpsUrl": "git+https://github.com/tetarenko/basic-auth.git",
-      "gitUrl": "git://github.com/tetarenko/basic-auth.git",
-      "shortcut": "github:tetarenko/basic-auth",
-      "directUrl": "https://raw.githubusercontent.com/tetarenko/basic-auth/master/package.json"
-    }
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "git+https://github.com/tetarenko/basic-auth.git#6b52185758433a3106eb78750140a53cf16ee415",
-  "_shasum": "7edfdd126474790e1f57a4e567c207cef46d3de4",
-  "_shrinkwrap": null,
-  "_spec": "basic-auth@git+https://github.com/tetarenko/basic-auth.git",
-  "_where": "C:\\src\\data-handling",
   "author": "",
   "dependencies": {
     "express-session": "^1.14.0",
@@ -91,16 +37,10 @@
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
   },
-  "engines": {
-    "node": ">=4.0.0"
-  },
-  "gitHead": "6b52185758433a3106eb78750140a53cf16ee415",
+
   "license": "MIT",
   "main": "index.js",
   "name": "basic-auth",
-  "optionalDependencies": {},
-  "readme": "Подключение модуля\r\n================\r\n\r\nУстановка:\r\n------------\r\n\r\nПока только так:\r\n\r\n```sh\r\n\r\nnpm i https://github.com/tetarenko/basic/auth --save\r\n\r\n```\r\n\r\nНа сервере:\r\n------------\r\nДля хранения логинов, ролей и прочей информации, необходимой для работы модуля,\r\nнеобходимо описать хранилище данных (в примере реализовано в виде простого JSON).\r\n\r\nОбязательно должны быть определены следующие функции:\r\n\r\n```js\r\ngetAccessTypes(callback)\r\ngetUsers(callback)\r\ngetRoles(callback)\r\n```\r\n\r\nДля конфигурации серверной части необходимо сделать импориторивать необходимое\r\n```js\r\nimport { routes, checkAccess, cookiesSession } from '../../src';\r\n```\r\nи использовать следующим образом:\r\n\r\n```js\r\n//...\r\nconst store = createStore(path.join(__dirname, '../data/store.json'));\r\n//...\r\n// routes возвратит массив из middleware используемый роутером приложения\r\nrouter.use(routes(store));\r\n// cookiesSession вернет middleware\r\napp.use(cookiesSession());\r\n//...\r\n```\r\n\r\nНа клиенте:\r\n------------\r\n\r\nНеобходимо подключить reducers модуля\r\n\r\n```js\r\nimport { getReducers } from '../../../src';\r\n//...\r\nconst reduxStore = createThunkedStore(combineReducers({\r\n  ...reducers,\r\n  ...getReducers(['user', 'users']),\r\n}));\r\n```\r\n\r\nЗащита ресурсов:\r\n------------------------\r\n\r\nНа сервере:\r\n\r\nВо-первых текущий пользователь хранится в req.session.user, он и будет\r\nиспользоваться для проверки в основной функции проверки checkAccess\r\n\r\n```js\r\ncheckAccess(user, permission, resourceId)\r\n```\r\npermission - в качестве параметра указывается строка и именем по которому хотите\r\nчтобы был осуществлен доступ, который задается в типах доступа\r\n\r\nresourceId - обычно это id ресурса (например слоя), но также может быть например\r\nимя маршрута, для того чтобы запретить доступ на клиенте. Если не указан то в схемах доступа хранится значение либо true, либо false\r\n\r\nТакже можно сделать кастомную проверку пра анализируя req.session.user\r\n\r\nНа клиенте:\r\n\r\nПосле подключения модуля на клиенте в store у нас хранится пользователь который можно получить в select обратившись state.user.\r\n\r\nЗащита маршрута:\r\n\r\nНеобходимо в месте где создаются маршруты подключить:\r\n\r\n```js\r\nimport { bindAuthentification } from '../../src';\r\n\r\nи определить функцию, которую будем использовать на событии onEnter в маршруте.\r\n(пример без комментариев)\r\n```\r\n\r\n```js\r\nconst requireAccess = bindAuthentification(reduxStore, (nextState, replaceState) => {\r\n  replaceState({\r\n    next: nextState.location.pathname,\r\n    accessPermissions: nextState.accessPermission,\r\n    resourceId: nextState.resourceId,\r\n  });\r\n}, (nextState, replaceState) => {\r\n  replaceState({}, '/403');\r\n});\r\n```\r\nЗащита маршрута:\r\n\r\n1-ый способ:\r\n\r\nиспользовать универсальную функция checkAccess (описано выше).\r\n\r\n2-ой способ:\r\n\r\nанализировать user в store например:\r\n\r\n```js\r\nuser.getIn['roles', 'accessPermissions', accessType, resourceId]\r\n```\r\n\r\nTODO\r\n------------\r\n- Доделать пример (сделать более развернутым)\r\n- Дописать ридми по составу хранилища с ролями, пользователями ит.д.\r\n\r\nЗапуск примера:\r\n------------\r\n```sh\r\ngit clone https://github.com/tetarenko/auth\r\nnpm run example\r\n```\r\n\r\n[http://localhost:3000](http://localhost:3000)\r\n",
-  "readmeFilename": "readme.md",
   "scripts": {
     "build": "webpack",
     "example": "node example/index",
